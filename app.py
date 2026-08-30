@@ -1,7 +1,4 @@
-python
 import streamlit as st
-
-# ---------------- MOVIES & PRICES ----------------
 
 movies = [
     "The King's Speech",
@@ -17,8 +14,6 @@ tict_rate = {
     "Child": 500
 }
 
-# ---------------- CINEMA THEME ----------------
-
 st.set_page_config(
     page_title="Cinema Ticket Booking",
     page_icon="🎬",
@@ -27,77 +22,52 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+.stApp {
+    background: linear-gradient(135deg, #0f0f0f, #1b1b1b);
+}
 
-    /* Main background */
-    .stApp {
-        background: linear-gradient(135deg, #0f0f0f, #1b1b1b);
-    }
+.main-title {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
 
-    /* Main title */
-    .main-title {
-        text-align: center;
-        font-size: 42px;
-        font-weight: 700;
-        margin-top: 10px;
-        margin-bottom: 5px;
-    }
+.subtitle {
+    text-align: center;
+    font-size: 17px;
+    margin-bottom: 30px;
+}
 
-    .subtitle {
-        text-align: center;
-        font-size: 17px;
-        margin-bottom: 30px;
-    }
+.section-title {
+    font-size: 23px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
 
-    /* Section headings */
-    .section-title {
-        font-size: 23px;
-        font-weight: 600;
-        margin-top: 20px;
-        margin-bottom: 12px;
-    }
+.booking-box {
+    padding: 22px;
+    border-radius: 15px;
+    border: 1px solid #444;
+    margin-top: 20px;
+}
 
-    /* Movie box */
-    .movie-box {
-        padding: 20px;
-        border-radius: 15px;
-        border: 1px solid #444;
-        margin-bottom: 20px;
-    }
+.total {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
 
-    /* Ticket rate box */
-    .rate-box {
-        padding: 18px;
-        border-radius: 15px;
-        border: 1px solid #444;
-        margin-bottom: 20px;
-    }
-
-    /* Booking summary */
-    .booking-box {
-        padding: 22px;
-        border-radius: 15px;
-        border: 1px solid #444;
-        margin-top: 20px;
-    }
-
-    .total {
-        font-size: 28px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 15px;
-    }
-
-    .cinema-footer {
-        text-align: center;
-        margin-top: 30px;
-        font-size: 16px;
-    }
-
+.cinema-footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 16px;
+}
 </style>
 """, unsafe_allow_html=True)
-
-
-# ---------------- HEADER ----------------
 
 st.markdown(
     '<div class="main-title">🎬 Movie Ticket Booking</div>',
@@ -109,9 +79,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# ---------------- MOVIE SELECTION ----------------
-
 st.markdown(
     '<div class="section-title">🎥 Select Your Movie</div>',
     unsafe_allow_html=True
@@ -122,9 +89,6 @@ option = st.selectbox(
     movies,
     label_visibility="collapsed"
 )
-
-
-# ---------------- TICKET RATES ----------------
 
 st.markdown(
     '<div class="section-title">🎟️ Ticket Rates</div>',
@@ -141,9 +105,6 @@ with col2:
 
 with col3:
     st.metric("🧒 Child", "Rs. 500")
-
-
-# ---------------- TICKET SELECTION ----------------
 
 st.markdown(
     '<div class="section-title">🎟️ Choose Your Tickets</div>',
@@ -168,19 +129,14 @@ child_ticts = st.number_input(
     step=1
 )
 
-
-# ---------------- BOOKING ----------------
-
 if st.button("🎟️ Book Tickets", use_container_width=True):
 
     t_ticts = adult_ticts + student_ticts + child_ticts
 
     if t_ticts == 0:
-
         st.error("You must buy at least one ticket!")
 
     else:
-
         adult_value = adult_ticts * tict_rate["Adult"]
         student_value = student_ticts * tict_rate["Student"]
         child_value = child_ticts * tict_rate["Child"]
@@ -201,9 +157,6 @@ if st.button("🎟️ Book Tickets", use_container_width=True):
 
         t_pay = t_dis - booking_off
 
-
-        # ---------------- CONFIRMATION ----------------
-
         st.success("🎉 Booking Confirmed!")
 
         st.markdown(
@@ -217,11 +170,11 @@ if st.button("🎟️ Book Tickets", use_container_width=True):
 
             <h3>🎬 {option}</h3>
 
-            <p>👤 Adult Tickets: {adult_ticts} × Rs. 800 = Rs. {adult_value}</p>
+            <p>👤 Adult Tickets: {adult_ticts} = Rs. {adult_value}</p>
 
-            <p>🎓 Student Tickets: {student_ticts} × Rs. 600 = Rs. {student_value}</p>
+            <p>🎓 Student Tickets: {student_ticts} = Rs. {student_value}</p>
 
-            <p>🧒 Child Tickets: {child_ticts} × Rs. 500 = Rs. {child_value}</p>
+            <p>🧒 Child Tickets: {child_ticts} = Rs. {child_value}</p>
 
             <hr>
 
