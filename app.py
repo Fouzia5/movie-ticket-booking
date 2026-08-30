@@ -1,4 +1,4 @@
-```python
+python
 import streamlit as st
 
 # ---------------- MOVIES & PRICES ----------------
@@ -246,4 +246,3 @@ if st.button("🎟️ Book Tickets", use_container_width=True):
             '<div class="cinema-footer">🍿 Have fun and enjoy the show! 🎬</div>',
             unsafe_allow_html=True
         )
-```
