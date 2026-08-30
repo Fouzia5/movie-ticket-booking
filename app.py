@@ -14,102 +14,18 @@ tict_rate = {
     "Child": 500
 }
 
-st.set_page_config(
-    page_title="Cinema Ticket Booking",
-    page_icon="🎬",
-    layout="centered"
-)
+st.title("🎬 Movie Ticket Booking")
 
-st.markdown("""
-<style>
-.stApp {
-    background: linear-gradient(135deg, #0f0f0f, #1b1b1b);
-}
+st.write("Choose your movie and tickets below 🍿")
 
-.main-title {
-    text-align: center;
-    font-size: 42px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
+option = st.selectbox("🎥 Choose a movie", movies)
 
-.subtitle {
-    text-align: center;
-    font-size: 17px;
-    margin-bottom: 30px;
-}
+st.write("### 🎟️ Ticket Rates")
+st.write("Adult: Rs.", tict_rate["Adult"])
+st.write("Student: Rs.", tict_rate["Student"])
+st.write("Child: Rs.", tict_rate["Child"])
 
-.section-title {
-    font-size: 23px;
-    font-weight: 600;
-    margin-top: 20px;
-    margin-bottom: 12px;
-}
-
-.booking-box {
-    padding: 22px;
-    border-radius: 15px;
-    border: 1px solid #444;
-    margin-top: 20px;
-}
-
-.total {
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 15px;
-}
-
-.cinema-footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 16px;
-}
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown(
-    '<div class="main-title">🎬 Movie Ticket Booking</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<div class="subtitle">Your movie night starts here 🍿</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<div class="section-title">🎥 Select Your Movie</div>',
-    unsafe_allow_html=True
-)
-
-option = st.selectbox(
-    "Choose a movie",
-    movies,
-    label_visibility="collapsed"
-)
-
-st.markdown(
-    '<div class="section-title">🎟️ Ticket Rates</div>',
-    unsafe_allow_html=True
-)
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric("👤 Adult", "Rs. 800")
-
-with col2:
-    st.metric("🎓 Student", "Rs. 600")
-
-with col3:
-    st.metric("🧒 Child", "Rs. 500")
-
-st.markdown(
-    '<div class="section-title">🎟️ Choose Your Tickets</div>',
-    unsafe_allow_html=True
-)
+st.write("### 🎟️ Choose Your Tickets")
 
 adult_ticts = st.number_input(
     "Adult Tickets",
@@ -129,7 +45,7 @@ child_ticts = st.number_input(
     step=1
 )
 
-if st.button("🎟️ Book Tickets", use_container_width=True):
+if st.button("🎟️ Book Tickets"):
 
     t_ticts = adult_ticts + student_ticts + child_ticts
 
@@ -157,45 +73,20 @@ if st.button("🎟️ Book Tickets", use_container_width=True):
 
         t_pay = t_dis - booking_off
 
-        st.success("🎉 Booking Confirmed!")
+        st.success("🎉 Booking Done!")
 
-        st.markdown(
-            '<div class="section-title">🧾 Your Booking</div>',
-            unsafe_allow_html=True
-        )
+        st.write("## 🧾 Your Booking")
+        st.write("🎬 Movie:", option)
 
-        st.markdown(
-            f"""
-            <div class="booking-box">
+        st.write("Adult Tickets:", adult_ticts, "=", adult_value)
+        st.write("Student Tickets:", student_ticts, "=", student_value)
+        st.write("Child Tickets:", child_ticts, "=", child_value)
 
-            <h3>🎬 {option}</h3>
+        st.write("🎟️ Total Tickets:", t_ticts)
+        st.write("💰 Subtotal:", s_total)
+        st.write("🎓 Student Discount:", student_off)
+        st.write("🎟️ Booking Discount:", booking_off)
 
-            <p>👤 Adult Tickets: {adult_ticts} = Rs. {adult_value}</p>
+        st.write("### 💳 You Pay:", t_pay)
 
-            <p>🎓 Student Tickets: {student_ticts} = Rs. {student_value}</p>
-
-            <p>🧒 Child Tickets: {child_ticts} = Rs. {child_value}</p>
-
-            <hr>
-
-            <p>🎟️ Total Tickets: {t_ticts}</p>
-
-            <p>💰 Subtotal: Rs. {s_total}</p>
-
-            <p>🎓 Student Discount: Rs. {student_off:.0f}</p>
-
-            <p>🎟️ Booking Discount: Rs. {booking_off:.0f}</p>
-
-            <div class="total">
-                💳 You Pay: Rs. {t_pay:.0f}
-            </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="cinema-footer">🍿 Have fun and enjoy the show! 🎬</div>',
-            unsafe_allow_html=True
-        )
+        st.write("🍿 Have fun!")
