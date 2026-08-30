@@ -1,4 +1,7 @@
+```python
 import streamlit as st
+
+# ---------------- MOVIES & PRICES ----------------
 
 movies = [
     "The King's Speech",
@@ -14,41 +17,170 @@ tict_rate = {
     "Child": 500
 }
 
-st.title("Movie Ticket Booking")
+# ---------------- CINEMA THEME ----------------
 
-option = st.selectbox("Choose a movie", movies)
+st.set_page_config(
+    page_title="Cinema Ticket Booking",
+    page_icon="🎬",
+    layout="centered"
+)
 
-st.write("Ticket Rates")
-st.write("Adult: Rs.", tict_rate["Adult"])
-st.write("Student: Rs.", tict_rate["Student"])
-st.write("Child: Rs.", tict_rate["Child"])
+st.markdown("""
+<style>
+
+    /* Main background */
+    .stApp {
+        background: linear-gradient(135deg, #0f0f0f, #1b1b1b);
+    }
+
+    /* Main title */
+    .main-title {
+        text-align: center;
+        font-size: 42px;
+        font-weight: 700;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .subtitle {
+        text-align: center;
+        font-size: 17px;
+        margin-bottom: 30px;
+    }
+
+    /* Section headings */
+    .section-title {
+        font-size: 23px;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 12px;
+    }
+
+    /* Movie box */
+    .movie-box {
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid #444;
+        margin-bottom: 20px;
+    }
+
+    /* Ticket rate box */
+    .rate-box {
+        padding: 18px;
+        border-radius: 15px;
+        border: 1px solid #444;
+        margin-bottom: 20px;
+    }
+
+    /* Booking summary */
+    .booking-box {
+        padding: 22px;
+        border-radius: 15px;
+        border: 1px solid #444;
+        margin-top: 20px;
+    }
+
+    .total {
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .cinema-footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 16px;
+    }
+
+</style>
+""", unsafe_allow_html=True)
+
+
+# ---------------- HEADER ----------------
+
+st.markdown(
+    '<div class="main-title">🎬 Movie Ticket Booking</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    '<div class="subtitle">Your movie night starts here 🍿</div>',
+    unsafe_allow_html=True
+)
+
+
+# ---------------- MOVIE SELECTION ----------------
+
+st.markdown(
+    '<div class="section-title">🎥 Select Your Movie</div>',
+    unsafe_allow_html=True
+)
+
+option = st.selectbox(
+    "Choose a movie",
+    movies,
+    label_visibility="collapsed"
+)
+
+
+# ---------------- TICKET RATES ----------------
+
+st.markdown(
+    '<div class="section-title">🎟️ Ticket Rates</div>',
+    unsafe_allow_html=True
+)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("👤 Adult", "Rs. 800")
+
+with col2:
+    st.metric("🎓 Student", "Rs. 600")
+
+with col3:
+    st.metric("🧒 Child", "Rs. 500")
+
+
+# ---------------- TICKET SELECTION ----------------
+
+st.markdown(
+    '<div class="section-title">🎟️ Choose Your Tickets</div>',
+    unsafe_allow_html=True
+)
 
 adult_ticts = st.number_input(
-    "How many Adult tickets do you want?",
+    "Adult Tickets",
     min_value=0,
     step=1
 )
 
 student_ticts = st.number_input(
-    "How many Student tickets do you want?",
+    "Student Tickets",
     min_value=0,
     step=1
 )
 
 child_ticts = st.number_input(
-    "How many Child tickets do you want?",
+    "Child Tickets",
     min_value=0,
     step=1
 )
 
-if st.button("Book Tickets"):
+
+# ---------------- BOOKING ----------------
+
+if st.button("🎟️ Book Tickets", use_container_width=True):
 
     t_ticts = adult_ticts + student_ticts + child_ticts
 
     if t_ticts == 0:
+
         st.error("You must buy at least one ticket!")
 
     else:
+
         adult_value = adult_ticts * tict_rate["Adult"]
         student_value = student_ticts * tict_rate["Student"]
         child_value = child_ticts * tict_rate["Child"]
@@ -69,19 +201,49 @@ if st.button("Book Tickets"):
 
         t_pay = t_dis - booking_off
 
-        st.success("Booking Done!")
 
-        st.write("## Your Booking")
-        st.write("Movie:", option)
+        # ---------------- CONFIRMATION ----------------
 
-        st.write("Adult Tickets:", adult_ticts, "=", adult_value)
-        st.write("Student Tickets:", student_ticts, "=", student_value)
-        st.write("Child Tickets:", child_ticts, "=", child_value)
+        st.success("🎉 Booking Confirmed!")
 
-        st.write("Tickets:", t_ticts)
-        st.write("Subtotal:", s_total)
-        st.write("Student Off:", student_off)
-        st.write("Booking Off:", booking_off)
-        st.write("You Pay:", t_pay)
+        st.markdown(
+            '<div class="section-title">🧾 Your Booking</div>',
+            unsafe_allow_html=True
+        )
 
-        st.write("Have fun!")
+        st.markdown(
+            f"""
+            <div class="booking-box">
+
+            <h3>🎬 {option}</h3>
+
+            <p>👤 Adult Tickets: {adult_ticts} × Rs. 800 = Rs. {adult_value}</p>
+
+            <p>🎓 Student Tickets: {student_ticts} × Rs. 600 = Rs. {student_value}</p>
+
+            <p>🧒 Child Tickets: {child_ticts} × Rs. 500 = Rs. {child_value}</p>
+
+            <hr>
+
+            <p>🎟️ Total Tickets: {t_ticts}</p>
+
+            <p>💰 Subtotal: Rs. {s_total}</p>
+
+            <p>🎓 Student Discount: Rs. {student_off:.0f}</p>
+
+            <p>🎟️ Booking Discount: Rs. {booking_off:.0f}</p>
+
+            <div class="total">
+                💳 You Pay: Rs. {t_pay:.0f}
+            </div>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            '<div class="cinema-footer">🍿 Have fun and enjoy the show! 🎬</div>',
+            unsafe_allow_html=True
+        )
+```
